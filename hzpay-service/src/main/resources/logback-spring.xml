@@ -4,7 +4,7 @@
     <property name="log.root.level" value="DEBUG" /> <!-- 日志级别 -->
     <property name="log.other.level" value="ERROR" /> <!-- 其他日志级别 -->
     <property name="log.base" value="/local/logs" /> <!-- 日志路径，这里是相对路径，web项目eclipse下会输出到eclipse的安装目录下，如果部署到linux上的tomcat下，会输出到tomcat/bin目录 下 -->
-    <property name="log.moduleName" value="hzpay-web" />  <!--&lt;!&ndash; 模块名称， 影响日志配置名，日志文件名 &ndash;&gt;-->
+    <property name="log.moduleName" value="hzpay-service" />  <!--&lt;!&ndash; 模块名称， 影响日志配置名，日志文件名 &ndash;&gt;-->
 
     <property name="log.max.size" value="20MB" /> <!-- 日志文件大小 -->
 

@@ -1,5 +1,6 @@
 server:
-  port: 8888
+  port: 9999
+
 
 ###起个名字作为服务名称(该服务注册到eureka注册中心的名称，比如订单服务)
 spring:
@@ -18,6 +19,10 @@ eureka:
     ###是否需要从eureka上检索服务
     fetch-registry: true
 
+
+hzpay-service:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
 
 #开启hystrix断路器
 feign:

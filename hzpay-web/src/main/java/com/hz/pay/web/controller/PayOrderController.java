@@ -24,6 +24,9 @@ public class PayOrderController {
     @Autowired
     private DiscoveryClient client;
 
+    @Autowired
+    private ParamasCheck paramasCheck;
+
     /**
      * 统一下单接口:
      * 1)先验证接口参数以及签名信息
@@ -42,7 +45,7 @@ public class PayOrderController {
         }
         JSONObject po = JSONObject.parseObject(params);
 
-        ParamasCheck.validateParams(po);
+        paramasCheck.validateParams(po);
 
         return null;
     }

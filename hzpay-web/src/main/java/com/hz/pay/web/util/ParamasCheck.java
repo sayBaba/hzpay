@@ -4,24 +4,32 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hz.common.util.MySeq;
 import com.hz.common.util.XXPayUtil;
+import com.hz.pay.web.service.MchInfoServiceClient;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * 支付请求参数校验
  */
+@Component
 public class ParamasCheck {
 
     private static Logger logger = LoggerFactory.getLogger(ParamasCheck.class);
+
+    @Autowired
+    private  MchInfoServiceClient mchInfoServiceClient;
 
     /**
      * 支付请求参数校验
      * @param params
      * @return
      */
-    public static Object validateParams(JSONObject params) {
+
+    public Object validateParams(JSONObject params) {
         // 验证请求参数,参数有问题返回错误提示
         String errorMessage = null;
         // 支付参数
@@ -76,44 +84,44 @@ public class ParamasCheck {
         // 根据不同渠道,判断extra参数
         /**
 
-        if(PayConstant.PAY_CHANNEL_WX_JSAPI.equalsIgnoreCase(channelId)) {
-            if(StringUtils.isEmpty(extra)) {
-                errorMessage = "request params[extra] error.";
-                return errorMessage;
-            }
-            JSONObject extraObject = JSON.parseObject(extra);
-            String openId = extraObject.getString("openId");
-            if(StringUtils.isBlank(openId)) {
-                errorMessage = "request params[extra.openId] error.";
-                return errorMessage;
-            }
-        }else if(PayConstant.PAY_CHANNEL_WX_NATIVE.equalsIgnoreCase(channelId)) {
-            if(StringUtils.isEmpty(extra)) {
-                errorMessage = "request params[extra] error.";
-                return errorMessage;
-            }
-            JSONObject extraObject = JSON.parseObject(extra);
-            String productId = extraObject.getString("productId");
-            if(StringUtils.isBlank(productId)) {
-                errorMessage = "request params[extra.productId] error.";
-                return errorMessage;
-            }
-        }else if(PayConstant.PAY_CHANNEL_WX_MWEB.equalsIgnoreCase(channelId)) {
-            if(StringUtils.isEmpty(extra)) {
-                errorMessage = "request params[extra] error.";
-                return errorMessage;
-            }
-            JSONObject extraObject = JSON.parseObject(extra);
-            String productId = extraObject.getString("sceneInfo");
-            if(StringUtils.isBlank(productId)) {
-                errorMessage = "request params[extra.sceneInfo] error.";
-                return errorMessage;
-            }
-            if(StringUtils.isBlank(clientIp)) {
-                errorMessage = "request params[clientIp] error.";
-                return errorMessage;
-            }
-        }
+         if(PayConstant.PAY_CHANNEL_WX_JSAPI.equalsIgnoreCase(channelId)) {
+         if(StringUtils.isEmpty(extra)) {
+         errorMessage = "request params[extra] error.";
+         return errorMessage;
+         }
+         JSONObject extraObject = JSON.parseObject(extra);
+         String openId = extraObject.getString("openId");
+         if(StringUtils.isBlank(openId)) {
+         errorMessage = "request params[extra.openId] error.";
+         return errorMessage;
+         }
+         }else if(PayConstant.PAY_CHANNEL_WX_NATIVE.equalsIgnoreCase(channelId)) {
+         if(StringUtils.isEmpty(extra)) {
+         errorMessage = "request params[extra] error.";
+         return errorMessage;
+         }
+         JSONObject extraObject = JSON.parseObject(extra);
+         String productId = extraObject.getString("productId");
+         if(StringUtils.isBlank(productId)) {
+         errorMessage = "request params[extra.productId] error.";
+         return errorMessage;
+         }
+         }else if(PayConstant.PAY_CHANNEL_WX_MWEB.equalsIgnoreCase(channelId)) {
+         if(StringUtils.isEmpty(extra)) {
+         errorMessage = "request params[extra] error.";
+         return errorMessage;
+         }
+         JSONObject extraObject = JSON.parseObject(extra);
+         String productId = extraObject.getString("sceneInfo");
+         if(StringUtils.isBlank(productId)) {
+         errorMessage = "request params[extra.sceneInfo] error.";
+         return errorMessage;
+         }
+         if(StringUtils.isBlank(clientIp)) {
+         errorMessage = "request params[clientIp] error.";
+         return errorMessage;
+         }
+         }
          *
          */
 
@@ -125,9 +133,9 @@ public class ParamasCheck {
 
         // 查询商户信息
         JSONObject mchInfo = null;
-        //String retStr = mchInfoServiceClient.selectMchInfo(getJsonParam("mchId", mchId)); //TODO springCloud 调用，查询商户信息
+        String retStr = mchInfoServiceClient.selectMchInfo(getJsonParam("mchId", mchId)); //TODO springCloud 调用，查询商户信息
         //{code :"0",msg"请求成",result:{"":""}}
-        String retStr = "";
+//        String retStr = "";
         logger.info("");
 
         JSONObject retObj = JSON.parseObject(retStr);
@@ -204,5 +212,19 @@ public class ParamasCheck {
         return payOrder;
     }
 
+
+    private String getJsonParam(String[] names, Object[] values) {
+        JSONObject jsonParam = new JSONObject();
+        for (int i = 0; i < names.length; i++) {
+            jsonParam.put(names[i], values[i]);
+        }
+        return jsonParam.toJSONString();
+    }
+
+    private String getJsonParam(String name, Object value) {
+        JSONObject jsonParam = new JSONObject();
+        jsonParam.put(name, value);
+        return jsonParam.toJSONString();
+    }
 
 }
