@@ -1,5 +1,9 @@
 package com.hz.common.util;
 
+import com.alibaba.fastjson.JSON;
+import com.hz.common.constant.PayConstant;
+import com.hz.common.enums.PayEnum;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
@@ -15,43 +19,70 @@ import java.util.Set;
  */
 public class XXPayUtil {
 
-//    private static final MyLog _log = MyLog.getLog(XXPayUtil.class);
-//
-//    public static Map<String, Object> makeRetMap(String retCode, String retMsg, String resCode, String errCode, String errCodeDesc) {
-//        Map<String, Object> retMap = new HashMap<String, Object>();
-//        if(retCode != null) retMap.put(PayConstant.RETURN_PARAM_RETCODE, retCode);
-//        if(retMsg != null) retMap.put(PayConstant.RETURN_PARAM_RETMSG, retMsg);
-//        if(resCode != null) retMap.put(PayConstant.RESULT_PARAM_RESCODE, resCode);
-//        if(errCode != null) retMap.put(PayConstant.RESULT_PARAM_ERRCODE, errCode);
-//        if(errCodeDesc != null) retMap.put(PayConstant.RESULT_PARAM_ERRCODEDES, errCodeDesc);
-//        return retMap;
-//    }
-//
-//    public static Map<String, Object> makeRetMap(String retCode, String retMsg, String resCode, PayEnum payEnum) {
-//        Map<String, Object> retMap = new HashMap<String, Object>();
-//        if(retCode != null) retMap.put(PayConstant.RETURN_PARAM_RETCODE, retCode);
-//        if(retMsg != null) retMap.put(PayConstant.RETURN_PARAM_RETMSG, retMsg);
-//        if(resCode != null) retMap.put(PayConstant.RESULT_PARAM_RESCODE, resCode);
-//        if(payEnum != null) {
-//            retMap.put(PayConstant.RESULT_PARAM_ERRCODE, payEnum.getCode());
-//            retMap.put(PayConstant.RESULT_PARAM_ERRCODEDES, payEnum.getMessage());
-//        }
-//        return retMap;
-//    }
-//
-//    public static String makeRetData(Map retMap, String resKey) {
-//        if(retMap.get(PayConstant.RETURN_PARAM_RETCODE).equals(PayConstant.RETURN_VALUE_SUCCESS)) {
-//            String sign = PayDigestUtil.getSign(retMap, resKey, "payParams");
-//            retMap.put(PayConstant.RESULT_PARAM_SIGN, sign);
-//        }
-//        _log.info("生成响应数据:{}", retMap);
-//        return JSON.toJSONString(retMap);
-//    }
-//
-//    public static String makeRetFail(Map retMap) {
-//        _log.info("生成响应数据:{}", retMap);
-//        return JSON.toJSONString(retMap);
-//    }
+
+    /**
+     * 封装返回对象
+     * @param retCode
+     * @param retMsg
+     * @param resCode
+     * @param errCode
+     * @param errCodeDesc
+     * @return
+     */
+    public static Map<String, Object> makeRetMap(String retCode, String retMsg, String resCode, String errCode, String errCodeDesc) {
+        Map<String, Object> retMap = new HashMap<String, Object>();
+        if(retCode != null) retMap.put(PayConstant.RETURN_PARAM_RETCODE, retCode);
+        if(retMsg != null) retMap.put(PayConstant.RETURN_PARAM_RETMSG, retMsg);
+        if(resCode != null) retMap.put(PayConstant.RESULT_PARAM_RESCODE, resCode);
+        if(errCode != null) retMap.put(PayConstant.RESULT_PARAM_ERRCODE, errCode);
+        if(errCodeDesc != null) retMap.put(PayConstant.RESULT_PARAM_ERRCODEDES, errCodeDesc);
+        return retMap;
+    }
+
+    /**
+     * 封装返回对象
+     * @param retCode
+     * @param retMsg
+     * @param resCode
+     * @param payEnum
+     * @return
+     */
+    public static Map<String, Object> makeRetMap(String retCode, String retMsg, String resCode, PayEnum payEnum) {
+        Map<String, Object> retMap = new HashMap<String, Object>();
+        if(retCode != null) retMap.put(PayConstant.RETURN_PARAM_RETCODE, retCode);
+        if(retMsg != null) retMap.put(PayConstant.RETURN_PARAM_RETMSG, retMsg);
+        if(resCode != null) retMap.put(PayConstant.RESULT_PARAM_RESCODE, resCode);
+        if(payEnum != null) {
+            retMap.put(PayConstant.RESULT_PARAM_ERRCODE, payEnum.getCode());
+            retMap.put(PayConstant.RESULT_PARAM_ERRCODEDES, payEnum.getMessage());
+        }
+        return retMap;
+    }
+
+    /**
+     *
+     * @param retMap 请求数据
+     * @param resKey 加密密钥
+     * @return
+     */
+    public static String makeRetData(Map retMap, String resKey) {
+        if(retMap.get(PayConstant.RETURN_PARAM_RETCODE).equals(PayConstant.RETURN_VALUE_SUCCESS)) {
+            String sign = PayDigestUtil.getSign(retMap, resKey, "payParams");
+            retMap.put(PayConstant.RESULT_PARAM_SIGN, sign);
+        }
+        return JSON.toJSONString(retMap);
+    }
+
+    /**
+     * map转json字符串
+     * @param retMap
+     * @return
+     */
+    public static String makeRetFail(Map retMap) {
+        //{"code":"1111",msg:"签名错误"}
+
+        return JSON.toJSONString(retMap);
+    }
 
     /**
      * 验证支付中心签名

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hz.common.util.MySeq;
 import com.hz.common.util.XXPayUtil;
 import com.hz.pay.web.service.MchInfoServiceClient;
+import com.hz.pay.web.service.PayChannelServiceClient;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
@@ -21,7 +22,11 @@ public class ParamasCheck {
     private static Logger logger = LoggerFactory.getLogger(ParamasCheck.class);
 
     @Autowired
-    private  MchInfoServiceClient mchInfoServiceClient;
+    private MchInfoServiceClient mchInfoServiceClient;
+
+    @Autowired
+    private PayChannelServiceClient payChannelServiceClient;
+
 
     /**
      * 支付请求参数校验
@@ -47,6 +52,7 @@ public class ParamasCheck {
         String sign = params.getString("sign"); 				// 签名
         String subject = params.getString("subject");	        // 商品主题
         String body = params.getString("body");	                // 商品描述信息
+
         // 验证请求参数有效性（必选项）
         if(StringUtils.isBlank(mchId)) {
             errorMessage = "request params[mchId] error.";
@@ -131,13 +137,14 @@ public class ParamasCheck {
             return errorMessage;
         }
 
-        // 查询商户信息
+        // 1.查询商户信息
         JSONObject mchInfo = null;
         String retStr = mchInfoServiceClient.selectMchInfo(getJsonParam("mchId", mchId)); //TODO springCloud 调用，查询商户信息
-        //{code :"0",msg"请求成",result:{"":""}}
-//        String retStr = "";
-        logger.info("");
-
+        //{code :"0000",msg"请求成功",result:{"":"","",""}}
+        logger.info("商户id为：{},查询商户信息结果：{}",mchId,retStr);
+        if(StringUtils.isEmpty(retStr)){
+            return "查询商户没有正常返回数据";
+        }
         JSONObject retObj = JSON.parseObject(retStr);
 
         //解析接口返回的数据
@@ -156,16 +163,17 @@ public class ParamasCheck {
             logger.info("查询商户没有正常返回数据,code={},msg={}", retObj.getString("code"), retObj.getString("msg"));
             return errorMessage;
         }
-
         String reqKey = mchInfo.getString("reqKey");
+
         if (StringUtils.isBlank(reqKey)) {
             errorMessage = "reqKey is null[mchId="+mchId+"] record in db.";
             return errorMessage;
         }
 
-        // 查询商户对应的支付渠道
+        // 2.查询商户对应的支付渠道
         JSONObject payChannel = null;
-        retStr = null; //payChannelServiceClient.selectPayChannel(getJsonParam(new String[]{"channelId", "mchId"}, new String[]{channelId, mchId}));
+        retStr = payChannelServiceClient.selectPayChannel(getJsonParam(new String[]{"channelId", "mchId"}, new String[]{channelId, mchId}));
+        logger.info("商户id为：{},查询对应的支付渠道结果：{}",mchId,retStr);
 
         retObj = JSON.parseObject(retStr);
         if("0000".equals(retObj.getString("code"))) {
@@ -183,7 +191,6 @@ public class ParamasCheck {
             logger.info("查询渠道没有正常返回数据,code={},msg={}", retObj.getString("code"), retObj.getString("msg"));
             return errorMessage;
         }
-
 
         // 验证签名数据
         boolean verifyFlag = XXPayUtil.verifyPaySign(params, reqKey);

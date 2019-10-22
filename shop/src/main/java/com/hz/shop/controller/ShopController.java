@@ -33,7 +33,7 @@ public class ShopController {
     @Autowired
     private IGoodsOrderService goodsOrderService;
 
-    /**
+    /** 程序入口
      * 加载扫码页面
      * @return
      */
@@ -74,8 +74,8 @@ public class ShopController {
 
         //3.判断支付方式
         if(ua.contains("Alipay")) {
-            client = "alipay";
-            channelId = "ALIPAY_WAP";
+            client = "alipay";       //支付方式
+            channelId = "ALIPAY_WAP"; //支付宝wap支付
 
         }else { //TODO
 
@@ -89,12 +89,11 @@ public class ShopController {
             return view;
         }
 
-        //3.创建订单
+        //3.模拟生成-订单
         String goodsId = "G_0001";
         GoodsOrder goodsOrder = goodsOrderService.addGoodsOrder(goodsId,amount);
 
-        //4.封装统一下单接口所需的参数
-
+        //4.调用统一下单接口。
         Map params = new HashMap<>();
         params.put("channelId", channelId); //TODO
         createPayOrder(goodsOrder,params);
@@ -114,11 +113,12 @@ public class ShopController {
         paramMap.put("channelId", params.get("channelId"));             // 支付渠道ID, WX_NATIVE,ALIPAY_WAP
         paramMap.put("amount", goodsOrder.getAmount());                          // 支付金额,单位分
         paramMap.put("currency", "cny");                    // 币种, cny-人民币
+        paramMap.put("notifyUrl", MchIdConstant.NOTIFY_URL);         // 回调URL
+
         paramMap.put("clientIp", "18998949646");        // 用户地址,IP或手机号
         paramMap.put("device", "WEB");                      // 设备
         paramMap.put("subject", goodsOrder.getGoodsName());
         paramMap.put("body", goodsOrder.getGoodsName());
-        paramMap.put("notifyUrl", MchIdConstant.NOTIFY_URL);         // 回调URL
         paramMap.put("param1", "");                         // 扩展参数1
         paramMap.put("param2", "");                         // 扩展参数2
 
@@ -129,7 +129,7 @@ public class ShopController {
         String reqData = "params=" + paramMap.toJSONString();
         logger.info("请求支付中心下单接口,请求数据:" + reqData);
 
-        //调用统一下单接口  改springCloud调用
+        //调用统一下单接口(zuul网关路由)
         String result = XXPayUtil.call4Post(MchIdConstant.baseUrl+"/pay/create_order?" + reqData); //TODO
         logger.info("请求支付中心下单接口,响应数据:{}",result);
         if(StringUtils.isEmpty(result)){
