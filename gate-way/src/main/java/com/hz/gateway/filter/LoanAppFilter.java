@@ -48,6 +48,7 @@ public class LoanAppFilter extends ZuulFilter {
         //验证数据的请求数据是否串改，md5+明文
         RequestContext requestContext = RequestContext.getCurrentContext();
         HttpServletRequest request = requestContext.getRequest();
+        System.out.println("---------------------------------");
 //        //获取请求的参数
 //        if("user/login".equals(request.getRequestURI())){
 //            return null;

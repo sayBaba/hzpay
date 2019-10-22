@@ -129,9 +129,13 @@ public class ShopController {
         String reqData = "params=" + paramMap.toJSONString();
         logger.info("请求支付中心下单接口,请求数据:" + reqData);
 
-        //调用统一下单接口
-        String result = XXPayUtil.call4Post(MchIdConstant.baseUrl + reqData); //TODO
+        //调用统一下单接口  改springCloud调用
+        String result = XXPayUtil.call4Post(MchIdConstant.baseUrl+"/pay/create_order?" + reqData); //TODO
         logger.info("请求支付中心下单接口,响应数据:{}",result);
+        if(StringUtils.isEmpty(result)){
+            logger.info("请求支付中心下单接口,响应数据为null");
+            return null;
+        }
 
         Map retMap = JSON.parseObject(result);
         if("SUCCESS".equals(retMap.get("retCode"))) {

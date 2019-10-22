@@ -125,11 +125,14 @@ public class ParamasCheck {
 
         // 查询商户信息
         JSONObject mchInfo = null;
-//       String retStr = mchInfoServiceClient.selectMchInfo(getJsonParam("mchId", mchId));
-        String retStr = null;//mchInfoFeginClient.selectMchInfo(getJsonParam("mchId", mchId));
+        //String retStr = mchInfoServiceClient.selectMchInfo(getJsonParam("mchId", mchId)); //TODO springCloud 调用，查询商户信息
+        //{code :"0",msg"请求成",result:{"":""}}
+        String retStr = "";
         logger.info("");
 
         JSONObject retObj = JSON.parseObject(retStr);
+
+        //解析接口返回的数据
         if("0000".equals(retObj.getString("code"))) {
             mchInfo = retObj.getJSONObject("result");
             if (mchInfo == null) {
@@ -180,6 +183,7 @@ public class ParamasCheck {
             errorMessage = "Verify XX pay sign failed.";
             return errorMessage;
         }
+
         // 验证参数通过,返回JSONObject对象
         JSONObject payOrder = new JSONObject();
         payOrder.put("payOrderId", MySeq.getPay());

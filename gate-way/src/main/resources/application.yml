@@ -34,7 +34,8 @@ zuul:
     socket-timeout-millis: 60000   #socket超时
 
   routes: #定义服务转发规则
-    appLoan-service: #item-service这个名字是任意写的
-      path: /hzPay/** #匹配item-service的url路径请求app-item服务
+    pay-service: #item-service这个名字是任意写的
+      path: /pay-service/** #匹配item-service的url路径请求app-item服务
       #url: http://127.0.0.1:8081 #真正的微服务地址
-      serviceid: gate-way
+      serviceid: hzpay-web
+

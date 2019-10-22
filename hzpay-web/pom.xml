@@ -60,6 +60,13 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
+        <!--springboot 整合eureka客户端-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
+
         <!--springboot 整合mybatis-->
     <!--    <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
@@ -76,11 +83,8 @@
 
 
         <dependency>
-            <groupId>org.projectlombok</groupId<!--        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>-->>
+            <groupId>org.projectlombok</groupId>
+
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
