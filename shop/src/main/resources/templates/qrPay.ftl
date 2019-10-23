@@ -18,7 +18,6 @@
         td{padding: 10px;}
         .fr{text-align: right; font-weight: bold;}
     </style>
-    <script src="//cdn.jsdelivr.net/jquery/1.12.1/jquery.min.js"></script>
 
 </head>
 <body>

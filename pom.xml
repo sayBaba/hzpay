@@ -39,7 +39,10 @@
 			</resource>
 		</resources>
 	</build>
-	<packaging>war</packaging>
+    <modules>
+        <module>hzpay-shop</module>
+    </modules>
+    <packaging>pom</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>Databinder Application</name>
 	<dependencies>

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayResponse;
 import com.hz.common.constant.PayConstant;
 import com.hz.common.enums.PayEnum;
+import com.hz.common.util.MyBase64;
 import com.hz.common.util.XXPayUtil;
 import com.hz.pay.model.MchInfo;
 import com.hz.pay.model.PayChannel;
@@ -77,7 +78,7 @@ public class AlipayPaymentController {
 
         Map<String, Object> map = XXPayUtil.makeRetMap(PayConstant.RETURN_VALUE_SUCCESS, "", PayConstant.RETURN_VALUE_SUCCESS, null);
         map.put("payOrderId", payOrderId);
-        map.put("payUrl", payUrl);
+        map.put("payUrl", MyBase64.encode(payUrl.getBytes()));
         logger.info("支付宝手机网站支付返回的参数：{}....",XXPayUtil.makeRetData(map, resKey));
         return XXPayUtil.makeRetData(map, resKey);
 
