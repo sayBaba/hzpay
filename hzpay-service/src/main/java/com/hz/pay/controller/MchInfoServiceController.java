@@ -49,6 +49,7 @@ public class MchInfoServiceController {
             retObj.put("msg", "数据对象不存在");
             return retObj.toJSONString();
         }
+
         retObj.put("result", JSON.toJSON(mchInfo));
         logger.info("查询商户信息返回result:{}", retObj.toJSONString());
         return retObj.toJSONString();

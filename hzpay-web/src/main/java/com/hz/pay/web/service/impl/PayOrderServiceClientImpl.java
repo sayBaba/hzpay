@@ -21,4 +21,9 @@ public class PayOrderServiceClientImpl implements PayOrderServiceClient {
     public String selectPayChannel(String jsonParam) {
         return "error";
     }
+
+    @Override
+    public String alipayWapPayment(String jsonParam) {
+        return "error";
+    }
 }

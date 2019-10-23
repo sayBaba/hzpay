@@ -76,9 +76,26 @@ public class PayOrderController {
         if (org.apache.commons.lang.StringUtils.isEmpty(result)) {
             return XXPayUtil.makeRetFail(XXPayUtil.makeRetMap(PayConstant.RETURN_VALUE_FAIL, "创建支付订单失败", null, null));
         }
+        String channelId = payOrder.getString("channelId");
 
+        switch (channelId) {
+            case PayConstant.PAY_CHANNEL_ALIPAY_WAP :
+                return payOrderServiceClient.alipayWapPayment(getJsonParam("payOrder", payOrder));
+            default:
+                return XXPayUtil.makeRetFail(XXPayUtil.makeRetMap(PayConstant.RETURN_VALUE_FAIL, "不支持的支付渠道类型[channelId="+channelId+"]", null, null));
+        }
+    }
 
-        return null;
+    /**
+     * 转成json字符串
+     * @param name
+     * @param value
+     * @return
+     */
+    private  String getJsonParam(String name, Object value) {
+        JSONObject jsonParam = new JSONObject();
+        jsonParam.put(name, value);
+        return jsonParam.toJSONString();
     }
 
 

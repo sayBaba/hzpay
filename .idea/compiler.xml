@@ -6,13 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="hzpay" />
         <module name="hzpay-service" />
         <module name="common" />
-        <module name="gate-way" />
         <module name="hzpay-web" />
         <module name="eureka" />
         <module name="shop" />
-        <module name="hzpay" />
+        <module name="gate-way" />
       </profile>
     </annotationProcessing>
   </component>

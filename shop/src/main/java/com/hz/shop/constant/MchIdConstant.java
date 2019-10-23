@@ -11,6 +11,8 @@ public class MchIdConstant {
 
     public static final String REQ_KEY = "M86l522AV6q613Ii4W6u8K48uW8vM1N6bFgyv769220MdYe9u37N4y7rI5mQ"; //请求加密密钥
 
+    public static final String RES_KEY ="M86l522AV6q613Ii4W6u8K48uW8vM1N6bFgyv769220MdYe9u37N4y7rI5mQ"; //返回加密密钥
+
     public static final String baseUrl = "http://127.0.0.1:1111/pay-service";
 
 

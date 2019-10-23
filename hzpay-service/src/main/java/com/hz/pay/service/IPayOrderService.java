@@ -3,7 +3,7 @@ package com.hz.pay.service;
 import com.hz.pay.model.PayOrder;
 
 /**
- * 支付流水接口
+ * 支付订单接口
  */
 public interface IPayOrderService {
 
@@ -13,5 +13,12 @@ public interface IPayOrderService {
      * @return
      */
     public int createPayOrder(PayOrder payOrder);
+
+    /**
+     * 更新订单的状态
+     * @param payOrder
+     * @return
+     */
+    public int updatePayOrder(PayOrder payOrder);
 
 }
