@@ -41,13 +41,16 @@ public class PayOrderServiceController {
             retObj.put("msg", "缺少参数");
             return retObj.toJSONString();
         }
+
         try {
-            PayOrder payOrder = JSON.parseObject(new String(MyBase64.decode(jsonParam)), PayOrder.class);
+            PayOrder payOrder = JSON.parseObject(jsonParam,PayOrder.class);
             int result = payOrderService.createPayOrder(payOrder);
             retObj.put("result", result);
         }catch (Exception e) {
-            retObj.put("code", "9999"); // 系统错误
+            logger.error("Exception",e);
+            retObj.put("code", "9999");
             retObj.put("msg", "系统错误");
+            return retObj.toJSONString();
         }
         logger.info("支付订单返回参数,jsonParam={}", jsonParam);
 

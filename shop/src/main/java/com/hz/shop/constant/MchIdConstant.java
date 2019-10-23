@@ -5,7 +5,7 @@ package com.hz.shop.constant;
  */
 public class MchIdConstant {
 
-    public static final String MCHID = "20001223"; //商户id
+    public static final String MCHID = "10000001"; //商户id
 
     public static final String NOTIFY_URL = "http://hzpay666.free.idcfengye.com/goods/payNotify"; //回调地址
 

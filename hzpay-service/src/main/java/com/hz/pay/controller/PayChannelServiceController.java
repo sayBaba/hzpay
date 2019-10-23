@@ -39,7 +39,7 @@ public class PayChannelServiceController {
             retObj.put("msg", "缺少参数");
             return retObj.toJSONString();
         }
-        JSONObject paramObj = JSON.parseObject(new String(MyBase64.decode(jsonParam)));
+        JSONObject paramObj = JSON.parseObject(jsonParam);
         String channelId = paramObj.getString("channelId");
         String mchId = paramObj.getString("mchId"
         );

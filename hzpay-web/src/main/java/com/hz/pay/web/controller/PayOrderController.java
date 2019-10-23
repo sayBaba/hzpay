@@ -3,7 +3,6 @@ package com.hz.pay.web.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.hz.common.constant.PayConstant;
 import com.hz.common.util.XXPayUtil;
-import com.hz.pay.web.service.PayChannelServiceClient;
 import com.hz.pay.web.service.PayOrderServiceClient;
 import com.hz.pay.web.util.ParamasCheck;
 import org.slf4j.Logger;
@@ -15,6 +14,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * 支付接口
@@ -42,8 +46,8 @@ public class PayOrderController {
      */
     @RequestMapping("/create_order")
     public String payOrder(@RequestParam String params) {
-        logger.info("###### 开始接收商户统一下单请求 ######，请求参数：{}",params);
-        if (StringUtils.isEmpty(params)){
+        logger.info("###### 开始接收商户统一下单请求 ######，请求参数：{}", params);
+        if (StringUtils.isEmpty(params)) {
             return null;
         }
         //字符解析为json
@@ -62,19 +66,20 @@ public class PayOrderController {
             payOrder = (JSONObject) object;
         }
 
-        if(payOrder == null) {
+        if (payOrder == null) {
             return XXPayUtil.makeRetFail(XXPayUtil.makeRetMap(PayConstant.RETURN_VALUE_FAIL, "支付中心下单失败", null, null));
         }
 
         // 生成支付流水
         String result = payOrderServiceClient.createPayOrder(payOrder.toJSONString());
         logger.info("创建支付订单,结果:{}", result);
-        if(org.apache.commons.lang.StringUtils.isEmpty(result)) {
+        if (org.apache.commons.lang.StringUtils.isEmpty(result)) {
             return XXPayUtil.makeRetFail(XXPayUtil.makeRetMap(PayConstant.RETURN_VALUE_FAIL, "创建支付订单失败", null, null));
         }
 
 
         return null;
     }
+
 
 }

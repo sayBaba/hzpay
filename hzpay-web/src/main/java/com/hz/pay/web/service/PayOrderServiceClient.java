@@ -13,4 +13,12 @@ public interface PayOrderServiceClient {
     public String createPayOrder(@RequestParam String jsonParam);
 
 
+    /**
+     * 查询商户支付渠道
+     * @param jsonParam
+     * @return
+     */
+    @RequestMapping(value ="/pay_channel/select",method = RequestMethod.POST)
+    public String selectPayChannel(@RequestParam String jsonParam);
+
 }

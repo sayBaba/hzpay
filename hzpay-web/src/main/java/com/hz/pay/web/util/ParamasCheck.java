@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hz.common.util.MySeq;
 import com.hz.common.util.XXPayUtil;
 import com.hz.pay.web.service.MchInfoServiceClient;
-import com.hz.pay.web.service.PayChannelServiceClient;
+import com.hz.pay.web.service.PayOrderServiceClient;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
@@ -25,7 +25,7 @@ public class ParamasCheck {
     private MchInfoServiceClient mchInfoServiceClient;
 
     @Autowired
-    private PayChannelServiceClient payChannelServiceClient;
+    private PayOrderServiceClient payOrderServiceClient;
 
 
     /**
@@ -172,7 +172,7 @@ public class ParamasCheck {
 
         // 2.查询商户对应的支付渠道
         JSONObject payChannel = null;
-        retStr = payChannelServiceClient.selectPayChannel(getJsonParam(new String[]{"channelId", "mchId"}, new String[]{channelId, mchId}));
+        retStr = payOrderServiceClient.selectPayChannel(getJsonParam(new String[]{"channelId", "mchId"}, new String[]{channelId, mchId}));
         logger.info("商户id为：{},查询对应的支付渠道结果：{}",mchId,retStr);
 
         retObj = JSON.parseObject(retStr);
@@ -219,7 +219,12 @@ public class ParamasCheck {
         return payOrder;
     }
 
-
+    /**
+     * 转成json字符串
+     * @param names
+     * @param values
+     * @return
+     */
     private String getJsonParam(String[] names, Object[] values) {
         JSONObject jsonParam = new JSONObject();
         for (int i = 0; i < names.length; i++) {
@@ -228,6 +233,12 @@ public class ParamasCheck {
         return jsonParam.toJSONString();
     }
 
+    /**
+     * 转成json字符串
+     * @param name
+     * @param value
+     * @return
+     */
     private String getJsonParam(String name, Object value) {
         JSONObject jsonParam = new JSONObject();
         jsonParam.put(name, value);

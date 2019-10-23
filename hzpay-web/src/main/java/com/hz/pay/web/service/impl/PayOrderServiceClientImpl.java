@@ -16,4 +16,9 @@ public class PayOrderServiceClientImpl implements PayOrderServiceClient {
     public String createPayOrder(String jsonParam) {
         return "error";
     }
+
+    @Override
+    public String selectPayChannel(String jsonParam) {
+        return "error";
+    }
 }
