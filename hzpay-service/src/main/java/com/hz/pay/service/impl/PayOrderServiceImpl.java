@@ -38,4 +38,22 @@ public class PayOrderServiceImpl implements IPayOrderService {
         criteria.andStatusEqualTo(PayConstant.PAY_STATUS_INIT);
         return payOrderMapper.updateByExampleSelective(payOrder, example);
     }
+
+    @Override
+    public PayOrder selectPayOrder(String payOrderId) {
+        return payOrderMapper.selectByPrimaryKey(payOrderId);
+    }
+
+    @Override
+    public int updateStatus4Success(String payOrderId) {
+        PayOrder payOrder = new PayOrder();
+        payOrder.setPayOrderId(payOrderId);
+        payOrder.setStatus(PayConstant.PAY_STATUS_SUCCESS);
+        payOrder.setPaySuccTime(System.currentTimeMillis());
+        PayOrderExample example = new PayOrderExample();
+        PayOrderExample.Criteria criteria = example.createCriteria();
+        criteria.andPayOrderIdEqualTo(payOrderId);
+        criteria.andStatusEqualTo(PayConstant.PAY_STATUS_PAYING);
+        return payOrderMapper.updateByExampleSelective(payOrder, example);
+    }
 }

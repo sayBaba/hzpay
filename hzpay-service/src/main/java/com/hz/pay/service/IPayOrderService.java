@@ -21,4 +21,18 @@ public interface IPayOrderService {
      */
     public int updatePayOrder(PayOrder payOrder);
 
+    /**
+     * 根据交易订单号查询
+     * @param payOrderId
+     * @return
+     */
+    public PayOrder selectPayOrder(String payOrderId);
+
+    /**
+     * 更新交易订单
+     * @param payOrderId
+     * @return
+     */
+    public int updateStatus4Success(String payOrderId);
+
 }

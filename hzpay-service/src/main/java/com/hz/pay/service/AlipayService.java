@@ -45,8 +45,11 @@ public class AlipayService {
         AlipayClient client = new DefaultAlipayClient(apiUrl, appid, privateKey,"json", "utf-8", pubKey, "RSA2");
 
         AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
+        request.setNotifyUrl("http://hzpay777.vipgz2.idcfengye.com/notify/payResult.htm"); //后端异步通知，更新交易订单。
+        request.setReturnUrl("http://hzpay666.free.idcfengye.com/shop/showCode"); //支付完成，跳转此页面
+
         JSONObject bizContent = new JSONObject();
-        bizContent.put("body", "测试"); //可空
+        bizContent.put("body", payOrder.getBody()); //可空
         bizContent.put("timeout_express", "");
         bizContent.put("time_expire", "");
         bizContent.put("auth_token", "");
@@ -62,9 +65,9 @@ public class AlipayService {
         bizContent.put("business_params", "");
         bizContent.put("ext_user_info", "");
         /***************必传******************/
-        bizContent.put("subject", "测试商品");
-        bizContent.put("out_trade_no", System.currentTimeMillis()); //流水
-        bizContent.put("total_amount", "1.00");//金额
+        bizContent.put("subject", payOrder.getSubject());
+        bizContent.put("out_trade_no", payOrder.getPayOrderId()); //流水
+        bizContent.put("total_amount", AmountUtil.convertCent2Dollar(payOrder.getAmount().toString()));//金额
         bizContent.put("quit_url", "www.baidu.com");
         bizContent.put("product_code", "QUICK_WAP_WAY"); //手机网页wap支付
         request.setBizContent(bizContent.toJSONString());
