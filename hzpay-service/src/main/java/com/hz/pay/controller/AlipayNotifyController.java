@@ -76,9 +76,6 @@ public class AlipayNotifyController {
 //        } catch (AlipayApiException e) {
 //            e.printStackTrace();
 //        }
-
-
-
         logger.info("接受到支付宝的异步回调参数参数:params={}", params);
 
         //1.参数为空响应支付宝fail

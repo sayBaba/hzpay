@@ -46,13 +46,13 @@ public class PayOrderController {
      */
     @RequestMapping("/create_order")
     public String payOrder(@RequestParam String params) {
+
         logger.info("###### 开始接收商户统一下单请求 ######，请求参数：{}", params);
         if (StringUtils.isEmpty(params)) {
             return null;
         }
         //字符解析为json
         JSONObject po = JSONObject.parseObject(params);
-
         //参数校验
         Object object = paramasCheck.validateParams(po);
 

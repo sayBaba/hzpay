@@ -24,6 +24,11 @@ public class MchInfoServiceClient {
         return restTemplate.getForEntity("http://HZPAY-SERVICE/mch_info/select?jsonParam=" + MyBase64.encode(jsonParam.getBytes()), String.class).getBody();
     }
 
+    /**
+     * 服务调用出错，执行此方法
+     * @param jsonParam
+     * @return
+     */
     public String selectMchInfoFallback(String jsonParam) {
         return "error";
     }
