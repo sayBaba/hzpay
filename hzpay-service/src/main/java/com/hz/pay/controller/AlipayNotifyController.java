@@ -4,11 +4,15 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.hz.common.constant.PayConstant;
 import com.hz.pay.model.PayOrder;
+import com.hz.pay.mq.MQConfig;
+import com.hz.pay.mq.NotifyMchMessage;
 import com.hz.pay.service.IPayOrderService;
 import com.hz.pay.utils.VerifyAliPayRespData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +37,9 @@ public class AlipayNotifyController {
 
     @Autowired
     private IPayOrderService iPayOrderService;
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
 
     /**
      * 支付宝移动支付后台通知响应
@@ -99,11 +106,12 @@ public class AlipayNotifyController {
         //3.更新交易订单的状态
         String trade_status = params.get("trade_status");// 交易状态
 
+        PayOrder payOrder = null;
         if (trade_status.equals(PayConstant.AlipayConstant.TRADE_STATUS_SUCCESS) ||
                 trade_status.equals(PayConstant.AlipayConstant.TRADE_STATUS_FINISHED)) {
 
             int updatePayOrderRows;
-            PayOrder payOrder = (PayOrder)payContext.get("payOrder");
+             payOrder = (PayOrder)payContext.get("payOrder");
 
             byte payStatus = payOrder.getStatus(); // 0：订单生成，1：支付中，-1：支付失败，2：支付成功，3：业务处理完成，-2：订单过期
             if (payStatus != PayConstant.PAY_STATUS_SUCCESS && payStatus != PayConstant.PAY_STATUS_COMPLETE) {
@@ -126,6 +134,13 @@ public class AlipayNotifyController {
         }
 
         // 4.mq异步通知业务系统shop.
+        if(!ObjectUtils.isEmpty(payOrder)){
+            NotifyMchMessage mchMessage = new NotifyMchMessage();
+            mchMessage.setPayId(payOrder.getMchOrderNo());
+            mchMessage.setPayOrder(payOrder);
+            amqpTemplate.convertAndSend(MQConfig.NOTIFY_MCH_QUEUE,mchMessage);
+        }
+
 //        doNotify(payOrder);
         logger.info("====== 完成接收支付宝支付回调通知 ======");
 
