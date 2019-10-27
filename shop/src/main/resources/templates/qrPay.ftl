@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="fyunli">    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>XXPAY支付中心</title>
+    <title>HZPAY-支付中心</title>
 
 
     <style>
@@ -32,7 +32,7 @@
             </tr>
             <tr>
                 <td>收款方</td>
-                <td class="fr">北京骏易科技有限公司</td>
+                <td class="fr">t支付宝测试账户</td>
             </tr>
         </table>
     </div>

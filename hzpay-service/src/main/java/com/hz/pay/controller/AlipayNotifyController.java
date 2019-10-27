@@ -111,7 +111,7 @@ public class AlipayNotifyController {
                 trade_status.equals(PayConstant.AlipayConstant.TRADE_STATUS_FINISHED)) {
 
             int updatePayOrderRows;
-             payOrder = (PayOrder)payContext.get("payOrder");
+            payOrder = (PayOrder)payContext.get("payOrder");
 
             byte payStatus = payOrder.getStatus(); // 0：订单生成，1：支付中，-1：支付失败，2：支付成功，3：业务处理完成，-2：订单过期
             if (payStatus != PayConstant.PAY_STATUS_SUCCESS && payStatus != PayConstant.PAY_STATUS_COMPLETE) {
@@ -140,8 +140,6 @@ public class AlipayNotifyController {
             mchMessage.setPayOrder(payOrder);
             amqpTemplate.convertAndSend(MQConfig.NOTIFY_MCH_QUEUE,mchMessage);
         }
-
-//        doNotify(payOrder);
         logger.info("====== 完成接收支付宝支付回调通知 ======");
 
     }

@@ -17,7 +17,6 @@
         <option value="$PROJECT_DIR$/gate-way/pom.xml" />
         <option value="$PROJECT_DIR$/hzpay-web/pom.xml" />
         <option value="$PROJECT_DIR$/hzpay-service/pom.xml" />
-        <option value="$PROJECT_DIR$/demo/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

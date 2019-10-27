@@ -45,6 +45,12 @@ public class AlipayPaymentController {
     @Autowired
     private IPayOrderService iPayOrderService;
 
+
+    /**
+     * 支付宝wao支付接口
+     * @param jsonParam
+     * @return
+     */
     @RequestMapping(value = "/pay/channel/ali_wap")
     public String doAliPayWapReq(@RequestParam String jsonParam) {
         logger.info("接受到支付宝手机网站支付请求，参数：{}....",jsonParam);

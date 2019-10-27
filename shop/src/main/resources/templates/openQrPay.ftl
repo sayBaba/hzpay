@@ -8,7 +8,7 @@
     <meta name="author" content="fyunli">
 
     <base id="base" href="${base}">
-    <title>【XXPAY】分布式开源聚合支付</title>
+    <title>【HZPAY】分布式开源聚合支付</title>
 
     <!-- Bootstrap core CSS -->
     <link href="//cdn.jsdelivr.net/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
@@ -26,7 +26,7 @@
 <!-- Begin page content -->
 <div class="container">
     <div class="page-header">
-        <h1>【XxPay】分布式开源聚合支付系统</h1>
+        <h1>【HZPAY】分布式开源聚合支付系统</h1>
     </div>
     <div class="main" align="center">
         <div class="inwrap">
@@ -48,7 +48,6 @@
 
 <footer class="footer">
     <div class="container">
-        <p class="text-muted">&copy;2017 xxpay <script src="https://s13.cnzz.com/z_stat.php?id=1262480096&web_id=1262480096" language="JavaScript"></script></p>
     </div>
 </footer>
 
@@ -79,7 +78,6 @@
             return;
         }
         $("#vAmt").text(vAmt+'元');
-        //var qrText = 'http://xxpay-shop.ngrok.cc/goods/qrPay/' + (vAmt*100);
         var qrText = 'http://hzpay666.free.idcfengye.com/shop/recPay?amount=' + (vAmt*100);
         qrcode.makeCode(qrText);
     }

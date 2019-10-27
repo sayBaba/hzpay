@@ -6,9 +6,12 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.AlipayResponse;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradePagePayModel;
+import com.alipay.api.domain.AlipayTradeQueryModel;
 import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
+import com.alipay.api.response.AlipayTradeQueryResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -110,7 +113,6 @@ class ShopApplicationTests {
 
     }
 
-
     @Test
     public void test01(){
         AlipayClient client = new DefaultAlipayClient(apiUrl, appid, privateKey,"json", "utf-8", pubKey, "RSA2");
@@ -151,6 +153,34 @@ class ShopApplicationTests {
             e.printStackTrace();
         }
 
+    }
 
+    @Test
+    public void test02() {
+
+        AlipayClient alipayClient = new DefaultAlipayClient(apiUrl, appid, privateKey,"json", "GBK", pubKey, "RSA2");
+
+        AlipayTradeQueryModel model = new AlipayTradeQueryModel ();
+//        JSONObject bizContent = new JSONObject();
+        model.setOutTradeNo("111111111111111");
+//        request1.put("out_trade_no","");
+//        bizContent.put("org_pid","2088101117952222");
+//        bizContent.put("query_options","TRADE_SETTLE_INFO");
+        AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
+        request.setBizModel(model);
+
+//        request.setBizContent(bizContent.toJSONString());
+
+        AlipayTradeQueryResponse response = null;
+        try {
+            response = alipayClient.execute(request);
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        if(response.isSuccess()){
+            System.out.println("调用成功"+response.getBody());
+        } else {
+            System.out.println("调用失败");
+        }
     }
 }
