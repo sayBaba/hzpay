@@ -2,6 +2,8 @@ package com.hz.pay.service;
 
 import com.hz.pay.model.PayOrder;
 
+import java.util.List;
+
 /**
  * 支付订单接口
  */
@@ -34,5 +36,24 @@ public interface IPayOrderService {
      * @return
      */
     public int updateStatus4Success(String payOrderId);
+
+
+
+    /**
+     * 根据商户订单号查询
+     * @param mchOrderId
+     * @return
+     */
+    public PayOrder getPayOrderBymchOrderId(String mchId,String mchOrderId);
+
+
+
+    /**
+     * 根据渠道和状态
+     * @param channelId
+     * @return
+     */
+    public List<PayOrder> getPayListByStatus(String channelId, String staus);
+
 
 }

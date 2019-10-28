@@ -91,6 +91,7 @@
     Subject, Body, Extra, ChannelMchId, ChannelOrderNo, ErrCode, ErrMsg, Param1, Param2, 
     NotifyUrl, NotifyCount, LastNotifyTime, ExpireTime, PaySuccTime, CreateTime, UpdateTime
   </sql>
+
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hz.pay.model.PayOrderExample" >
     select
     <if test="distinct" >
@@ -113,22 +114,26 @@
       </if>
     </if>
   </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from t_pay_order
     where PayOrderId = #{payOrderId,jdbcType=VARCHAR}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_pay_order
     where PayOrderId = #{payOrderId,jdbcType=VARCHAR}
   </delete>
+
   <delete id="deleteByExample" parameterType="com.hz.pay.model.PayOrderExample" >
     delete from t_pay_order
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+
   <insert id="insert" parameterType="com.hz.pay.model.PayOrder" >
     insert into t_pay_order (PayOrderId, MchId, MchOrderNo, 
       ChannelId, Amount, Currency, 
@@ -149,6 +154,7 @@
       #{expireTime,jdbcType=BIGINT}, #{paySuccTime,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
+
   <insert id="insertSelective" parameterType="com.hz.pay.model.PayOrder" >
     insert into t_pay_order
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -306,12 +312,14 @@
       </if>
     </trim>
   </insert>
+
   <select id="countByExample" parameterType="com.hz.pay.model.PayOrderExample" resultType="java.lang.Integer" >
     select count(*) from t_pay_order
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+
   <update id="updateByExampleSelective" parameterType="map" >
     update t_pay_order
     <set >
@@ -395,6 +403,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+
   <update id="updateByExample" parameterType="map" >
     update t_pay_order
     set PayOrderId = #{record.payOrderId,jdbcType=VARCHAR},
@@ -426,6 +435,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.hz.pay.model.PayOrder" >
     update t_pay_order
     <set >
@@ -504,6 +514,7 @@
     </set>
     where PayOrderId = #{payOrderId,jdbcType=VARCHAR}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.hz.pay.model.PayOrder" >
     update t_pay_order
     set MchId = #{mchId,jdbcType=VARCHAR},
@@ -532,4 +543,23 @@
       UpdateTime = #{updateTime,jdbcType=TIMESTAMP}
     where PayOrderId = #{payOrderId,jdbcType=VARCHAR}
   </update>
+
+    <!-- 根据商户订单号查询 -->
+    <select id="selectByMchOrderId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from t_pay_order
+        where MchOrderNo = #{mchOrderId,jdbcType=VARCHAR}
+        and   MchId = #{mchId,jdbcType=VARCHAR},
+    </select>
+
+    <!--  -->
+    <select id="selectByChanelIdAndStatus" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        <include refid="Base_Column_List" />
+        from t_pay_order
+        where ChannelId = #{channelId,jdbcType=VARCHAR}
+        and   Status = #{mchId,jdbcType=TINYINT},
+    </select>
+
 </mapper>

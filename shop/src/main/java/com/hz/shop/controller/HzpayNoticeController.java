@@ -36,6 +36,8 @@ public class HzpayNoticeController {
         boolean flag = true;
         if (!flag){
             return "fail";
+        }else{
+            return "success";
         }
 
         //1.判断交易订单号是否存在
@@ -44,7 +46,6 @@ public class HzpayNoticeController {
 
         //3.更新t_goods_order订单的状态。
 
-        return "fail";
     }
 
 

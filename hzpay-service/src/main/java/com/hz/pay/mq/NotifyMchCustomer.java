@@ -84,11 +84,7 @@ public class NotifyMchCustomer {
         // 通知5次--5次没有收到结果,那就通知失败：3 否则就是通知中：1, 成功就是：2
         MchNotify mchNotify = mchNotifyMapper.selectByPrimaryKey(payOrder.getPayOrderId());
 
-        //维护商户通知表
-        if(StringUtils.isEmpty(result)){
-            //重复通知，放入延时队列
-
-        }else if ("success".equals(result)){
+       if ("success".equals(result)){
             //更新status 为 2,
             Date date = new Date();
             mchNotify.setLastNotifyTime(date);
@@ -107,7 +103,7 @@ public class NotifyMchCustomer {
             } catch (IOException e) {
                 logger.error("IOException",e);
             }
-        }else if("fail".equals(result)){
+        }else{
             //解决重复发送。每隔15分钟发一次。
             int count = mchNotify.getNotifyCount().intValue();
             if(count<5){

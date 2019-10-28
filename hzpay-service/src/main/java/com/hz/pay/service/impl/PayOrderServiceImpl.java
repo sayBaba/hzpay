@@ -8,6 +8,8 @@ import com.hz.pay.service.IPayOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 支付订单接口实现类
  */
@@ -55,5 +57,17 @@ public class PayOrderServiceImpl implements IPayOrderService {
         criteria.andPayOrderIdEqualTo(payOrderId);
         criteria.andStatusEqualTo(PayConstant.PAY_STATUS_PAYING);
         return payOrderMapper.updateByExampleSelective(payOrder, example);
+    }
+
+    @Override
+    public PayOrder getPayOrderBymchOrderId(String mchId,String mchOrderId) {
+
+        return payOrderMapper.selectByMchOrderId(mchId,mchOrderId);
+    }
+
+    @Override
+    public List<PayOrder> getPayListByStatus(String channelId, String staus) {
+
+        return payOrderMapper.selectByChanelIdAndStatus(channelId,staus);
     }
 }

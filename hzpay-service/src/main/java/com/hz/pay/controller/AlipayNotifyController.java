@@ -1,5 +1,7 @@
 package com.hz.pay.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.hz.common.constant.PayConstant;
@@ -20,9 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 支付宝异步通知入口
@@ -145,8 +145,6 @@ public class AlipayNotifyController {
         logger.info("====== 完成接收支付宝支付回调通知 ======");
 
     }
-
-
 
 
 

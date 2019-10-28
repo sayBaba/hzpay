@@ -6,7 +6,9 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.AlipayResponse;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeWapPayModel;
+import com.alipay.api.request.AlipayTradeQueryRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
+import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.hz.common.util.AmountUtil;
 import com.hz.pay.config.AlipayConfig;
 import com.hz.pay.controller.AlipayPaymentController;
@@ -82,6 +84,30 @@ public class AlipayService {
             return null;
         }
     }
+
+    /**
+     * 调用支付交易查询接口
+     * @param outTradeNo
+     * @return
+     */
+    public String getAlipayPayRlt(String outTradeNo){
+
+        AlipayClient alipayClient = new DefaultAlipayClient(alipayConfig.getAlipayUrl(),alipayConfig.getAppId(),alipayConfig.getPrivateKey(),
+                "json","GBK",alipayConfig.getPublicKey(),"RSA2");
+        AlipayTradeQueryRequest request = new AlipayTradeQueryRequest();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("out_trade_no",outTradeNo);
+        request.setBizContent(jsonObject.toJSONString());
+        try {
+            AlipayTradeQueryResponse response = alipayClient.execute(request);
+            return response.getBody();
+        } catch (AlipayApiException e) {
+            logger.error("AlipayApiException",e);
+            return null;
+        }
+
+    }
+
 
 
 }

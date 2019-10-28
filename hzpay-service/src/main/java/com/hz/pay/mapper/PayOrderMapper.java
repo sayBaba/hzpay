@@ -29,4 +29,21 @@ public interface PayOrderMapper {
     int updateByPrimaryKeySelective(PayOrder record);
 
     int updateByPrimaryKey(PayOrder record);
+
+    /**
+     * 根据商户id和商户订单号查询
+     * @param mchId
+     * @param machOrderId
+     * @return
+     */
+    PayOrder selectByMchOrderId(@Param("mchId") String mchId,@Param("mchOrderId") String machOrderId);
+
+    /**
+     *
+     * @param channelId
+     * @param status
+     * @return
+     */
+   List<PayOrder> selectByChanelIdAndStatus(@Param("channelId") String channelId,@Param("status") String status);
+
 }
