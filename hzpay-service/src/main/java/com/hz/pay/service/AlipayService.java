@@ -7,8 +7,10 @@ import com.alipay.api.AlipayResponse;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.request.AlipayTradeQueryRequest;
+import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.alipay.api.response.AlipayTradeQueryResponse;
+import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.hz.common.util.AmountUtil;
 import com.hz.pay.config.AlipayConfig;
 import com.hz.pay.controller.AlipayPaymentController;
@@ -105,6 +107,33 @@ public class AlipayService {
             logger.error("AlipayApiException",e);
             return null;
         }
+    }
+
+
+    /**
+     * 调用支付宝退款接口
+     * @param outTradeNo 交易订单号
+     * @param refundNo 退款流水
+     * @param amt 退款金额
+     * @return
+     */
+    public String getAlipayRefund(String outTradeNo,String refundNo,String amt){
+        AlipayClient alipayClient = new DefaultAlipayClient(alipayConfig.getAlipayUrl(),alipayConfig.getAppId(),alipayConfig.getPrivateKey(),
+                "json","GBK",alipayConfig.getPublicKey(),"RSA2");
+        AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("refund_amount", amt);
+        jsonObject.put("out_request_no",refundNo);
+        jsonObject.put("out_trade_no",outTradeNo);
+        request.setBizContent(jsonObject.toJSONString());
+        try {
+            AlipayTradeRefundResponse response = alipayClient.execute(request);
+
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+
+        return null;
 
     }
 

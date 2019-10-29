@@ -9,8 +9,10 @@ import com.alipay.api.domain.AlipayTradePagePayModel;
 import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.request.AlipayTradeQueryRequest;
+import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.alipay.api.response.AlipayTradeQueryResponse;
+import com.alipay.api.response.AlipayTradeRefundResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -177,6 +179,25 @@ class ShopApplicationTests {
         } else {
             System.out.println("调用失败");
         }
+    }
+
+    /**
+     * 支付宝退款
+     */
+    @Test
+    public void test03() throws AlipayApiException {
+        String pubKey1 = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnzJnbTT7sBQJTZvp3gGztei1V2eONrrbhxuPHojkAFTQzGE7nsWL2/TvVbOJihCq8JQtU9gSXBedNePetNLz4R7eMcZztTV9M9kxxwB5TKxjbI3l9DFDj3Q9sOUq8F1Afy8XiBfYdqvv+Haz4AWDdo6EljvXY6amrXbyBralIyXC/7exOqLs17/gx4DInfdf8ophOFbRSYbQCcRbDyxPdqT7mUY9ozfmoWaj/acjbH2gGGY26ptF9bDtkrPYLPgeIUNqYU1LsWgqqDxhL5eDYIGGvPMr5aFq9s29BjEAWdoDDAnUt8R0azhc1A6I1ONVspQToxPAMMVaYAirb1EXrQIDAQAB";
+        AlipayClient alipayClient = new DefaultAlipayClient(apiUrl,appid,privateKey,"json","GBK",pubKey1,"RSA2");
+        AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("refund_amount", 0.01);
+//        jsonObject.put("refund_currency","cny");
+        jsonObject.put("out_request_no",String.valueOf(System.currentTimeMillis()));
+        jsonObject.put("out_trade_no","P0020191028103659000000");
+        request.setBizContent(jsonObject.toJSONString());
+        AlipayTradeRefundResponse response = alipayClient.execute(request);
+
+        System.err.println(JSON.toJSONString(response));
 
     }
 
