@@ -76,6 +76,8 @@ public class PayOrderQueryController {
             payQueryResp.setMsg("");
             return payQueryResp;
         }
+        //从交易表中查出结果返回。
+
 
 
         logger.info("###### 接收到商户id：{}的查询支付请求返回对象：{}", payQueryReq.getMchId(),payQueryResp);
