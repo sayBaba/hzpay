@@ -17,7 +17,7 @@ public class RefundServiceImpl implements IRefundService {
     private RefundOrderMapper refundOrderMapper;
 
     @Override
-    public int createPayOrder(RefundOrderReq refundOrderReq) {
+    public RefundOrder createPayOrder(RefundOrderReq refundOrderReq) {
         RefundOrder refundOrder = new RefundOrder();
         Byte status = 0;
         refundOrder.setStatus(status);
@@ -35,6 +35,6 @@ public class RefundServiceImpl implements IRefundService {
         refundOrder.setCreateTime(date);
         refundOrder.setUpdateTime(date);
         int rl = refundOrderMapper.insertSelective(refundOrder);
-        return rl;
+        return refundOrder;
     }
 }

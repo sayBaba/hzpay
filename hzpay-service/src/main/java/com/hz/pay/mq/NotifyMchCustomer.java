@@ -26,7 +26,7 @@ import java.util.Date;
 
 
 /**
- * mq消费者
+ * mq支付异步通知消费者
  */
 @Component
 public class NotifyMchCustomer {

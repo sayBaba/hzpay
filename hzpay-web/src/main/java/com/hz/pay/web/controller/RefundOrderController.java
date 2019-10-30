@@ -33,6 +33,8 @@ public class RefundOrderController {
     private PayOrderServiceClient payOrderServiceClient;
 
 
+
+
     /**
      * 退款接口
      * @return
@@ -114,7 +116,12 @@ public class RefundOrderController {
         //生成退款订单
         refundOrderReq.setPayOrderId(payQueryData.getPayOrderId());
         payOrderServiceClient.createRefundOrder(refundOrderReq);
-
+        refundOrderResp.setCode("0000");
+        refundOrderResp.setMsg("退款申请中");
+        JSONObject jsonObject1 = new JSONObject();
+        jsonObject1.put("status","0");
+        jsonObject1.put("desc","退款申请中");
+        refundOrderResp.setData(jsonObject1);
 
         return refundOrderResp;
     }

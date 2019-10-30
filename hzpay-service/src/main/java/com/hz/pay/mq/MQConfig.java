@@ -13,8 +13,15 @@ import java.util.Map;
 @Configuration
 public class MQConfig {
 
+    //退款队列
+    public static final String REFUND_MCH_QUEUE = "REFUND_MCH_QUEUE";
+
+    //退款队列
+    public static final String REFUND_NOTIFY_MCH_QUEUE = "REFUND_NOTIFY_MCH_QUEUE";
+
     //异步通知队列
 	public static final String NOTIFY_MCH_QUEUE = "NOTIFY_MCH_QUEUE";
+
 	public static final String QUEUE = "queue";
 
     // 通知延时交换机

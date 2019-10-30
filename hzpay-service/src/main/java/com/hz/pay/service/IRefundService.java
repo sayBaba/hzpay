@@ -13,5 +13,5 @@ public interface IRefundService {
      * @param refundOrderReq
      * @return
      */
-    public int createPayOrder(RefundOrderReq refundOrderReq);
+    public RefundOrder createPayOrder(RefundOrderReq refundOrderReq);
 }

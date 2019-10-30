@@ -117,7 +117,7 @@ public class AlipayService {
      * @param amt 退款金额
      * @return
      */
-    public String getAlipayRefund(String outTradeNo,String refundNo,String amt){
+    public AlipayTradeRefundResponse getAlipayRefund(String outTradeNo,String refundNo,String amt){
         AlipayClient alipayClient = new DefaultAlipayClient(alipayConfig.getAlipayUrl(),alipayConfig.getAppId(),alipayConfig.getPrivateKey(),
                 "json","GBK",alipayConfig.getPublicKey(),"RSA2");
         AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
@@ -126,14 +126,15 @@ public class AlipayService {
         jsonObject.put("out_request_no",refundNo);
         jsonObject.put("out_trade_no",outTradeNo);
         request.setBizContent(jsonObject.toJSONString());
+        AlipayTradeRefundResponse response = null;
         try {
-            AlipayTradeRefundResponse response = alipayClient.execute(request);
+            response = alipayClient.execute(request);
 
         } catch (AlipayApiException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return response;
 
     }
 
