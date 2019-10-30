@@ -32,9 +32,6 @@ public class RefundOrderController {
     @Autowired
     private PayOrderServiceClient payOrderServiceClient;
 
-
-
-
     /**
      * 退款接口
      * @return
@@ -56,7 +53,7 @@ public class RefundOrderController {
         }
 
         //判断支付渠道是否存在
-        String rlt = payOrderServiceClient.selectPayChannel(getJsonParam(new String[]{"channelId", "mchId"}, new String[]{channelId, mchId}));
+        String rlt = payOrderServiceClient.selectPayChannel(null);
         if (StringUtils.isEmpty(rlt)){
             logger.info("商户号：{}channelId不存在",refundOrderReq.getMchId());
             refundOrderResp.setCode("9999");
@@ -125,7 +122,6 @@ public class RefundOrderController {
 
         return refundOrderResp;
     }
-
 
     /**
      * 转成json字符串

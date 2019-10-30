@@ -68,7 +68,7 @@ public class PayOrderQueryController {
             return payQueryResp;
         }
 
-        String rlt = payOrderServiceClient.selectPayChannel(getJsonParam(new String[]{"channelId", "mchId"}, new String[]{channelId, mchId}));
+        String rlt = payOrderServiceClient.selectPayChannel(null);
         if (StringUtils.isEmpty(rlt)){
             logger.info("商户订单号：{}channelId不存在",mchOrderId);
             payQueryResp.setCode("9999");
